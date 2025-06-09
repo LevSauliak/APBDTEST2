@@ -1,3 +1,5 @@
+using APBDTEST2.Data.Models;
+using APBDTEST2.DTOs;
 using APBDTEST2.Excetpions;
 using APBDTEST2.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -32,8 +34,30 @@ namespace APBDTEST2.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");
-                throw;
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCustomerWithPurchases([FromBody] CustomerWithPurchasesDto dto)
+        {
+            try
+            {
+                await _customerService.AddCustomerWithPurchases(dto);
+                return CreatedAtAction("AddCustomerWithPurchases", dto);
+            }
+            catch (ConflictException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+            
         }
         
         

@@ -6,4 +6,5 @@ namespace APBDTEST2.Services;
 public interface ICustomerService
 {
     public Task<CustomerPurchasesResponse> GetCustomerPurchases(int customerId);
+    public Task AddCustomerWithPurchases(CustomerWithPurchasesDto customerWithPurchases);
 }
